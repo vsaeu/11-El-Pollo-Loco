@@ -54,14 +54,15 @@ class Character extends MoveableObject {
     }
 
     animate() {
-       let intervalMove =  setInterval(() => {
+   let intervalMove = setInterval(() => {
             this.walking_sound.pause();
             if (this.isDead()) {
-                setInterval(() => {
+
                     clearInterval(intervalMove);
-                }, 300);
+
             }
 
+            this.world.camera_x = -this.x + 100;
             if (Keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.moveRight();
                 this.walking_sound.play();
@@ -76,7 +77,6 @@ class Character extends MoveableObject {
                 this.jump();
             }
 
-            this.world.camera_x = -this.x + 100;
         }, 1000 / 60);
 
         let intervalAnimation =  setInterval(() => {

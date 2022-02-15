@@ -1,12 +1,13 @@
-class StatusBar extends DrawableObjects {
+class StatusBarWeapon extends DrawableObjects {
 
     IMAGES = [
-        'img/7.Marcadores/Barra/Marcador vida/verde/0_.png',
-        'img/7.Marcadores/Barra/Marcador vida/verde/20_.png',
-        'img/7.Marcadores/Barra/Marcador vida/verde/40_.png',
-        'img/7.Marcadores/Barra/Marcador vida/verde/60_.png',
-        'img/7.Marcadores/Barra/Marcador vida/verde/80_.png',
-        'img/7.Marcadores/Barra/Marcador vida/verde/100_.png',
+        'img/7.Marcadores/Barra/Marcador_botella/Naranja/0_.png',
+        'img/7.Marcadores/Barra/Marcador_botella/Naranja/20_.png',
+        'img/7.Marcadores/Barra/Marcador_botella/Naranja/40_.png',
+        'img/7.Marcadores/Barra/Marcador_botella/Naranja/60_.png',
+        'img/7.Marcadores/Barra/Marcador_botella/Naranja/80_.png',
+        'img/7.Marcadores/Barra/Marcador_botella/Naranja/100_.png',
+
     ];
 
     percentage = 100;
@@ -14,7 +15,7 @@ class StatusBar extends DrawableObjects {
     constructor() {
         super();
         this.loadImages(this.IMAGES);
-        this.x = 40;
+        this.x = 480;
         this.y = 0;
         this.width = 200;
         this.height = 50;

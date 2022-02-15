@@ -7,6 +7,10 @@ class World {
     camera_x = 0;
     keyboard = new Keyboard();
     statusBar = new StatusBar();
+    statusBarCoins = new StatusBarCoins();
+    statusBarWeapon = new StatusBarWeapon();
+
+
     // coin = new Coin();
 
     constructor(canvas, keyboard) {
@@ -36,6 +40,16 @@ class World {
                     // console.log('is not Colliding: ', !this.character.isColliding(enemy));
                }
             });
+
+            this.level.coins.forEach(coin => {
+                if (this.character.isColliding(coin)) {
+                    this.coin.collect();
+                    this.statusBarCoins.setPercentage(this.character.collectedCoins);
+                }
+                
+            });
+
+
         }, 200 ); 
     }
 
@@ -44,14 +58,19 @@ class World {
 
         this.ctx.translate(this.camera_x, 0); // Kamera wird verschoben
         this.addObjectsToMap(this.level.backgroundObjects);
-
-        // this.addToMap(this.coin);
+        this.addObjectsToMap(this.level.weapon);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.clouds);
-        this.ctx.translate(-this.camera_x, 0); // Kamera wird zurück geschoben
+        this.addObjectsToMap(this.level.clouds);
+        this.addObjectsToMap(this.level.coins);
+
         this.addToMap(this.character);
+        this.ctx.translate(-this.camera_x, 0); // Kamera wird zurück geschoben
+
         this.addToMap(this.statusBar);
-        // this.ctx.translate(this.camera_x, 0);
+        this.addToMap(this.statusBarCoins);
+        this.addToMap(this.statusBarWeapon);
+
 
         // draw() wird immer wieder neu aufgerufen
         let self = this;
