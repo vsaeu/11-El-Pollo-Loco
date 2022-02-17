@@ -4,7 +4,7 @@ class Character extends MoveableObject {
     height = 250;
     width = 150;
     speed = 10;
-    IMAGES_WALKING = [
+   IMAGES_WALKING = [
         'img/2.Secuencias_Personaje-Pepe-corrección/2.Secuencia_caminata/W-21.png',
         'img/2.Secuencias_Personaje-Pepe-corrección/2.Secuencia_caminata/W-22.png',
         'img/2.Secuencias_Personaje-Pepe-corrección/2.Secuencia_caminata/W-23.png',
@@ -42,6 +42,8 @@ class Character extends MoveableObject {
 
     world;
     walking_sound = new Audio('audio/running.mp3');
+    jumping_sound = new Audio('audio/jump.mp3');
+
 
     constructor() {
         super().loadImage('img/2.Secuencias_Personaje-Pepe-corrección/2.Secuencia_caminata/W-21.png');
@@ -54,12 +56,10 @@ class Character extends MoveableObject {
     }
 
     animate() {
-   let intervalMove = setInterval(() => {
+        let intervalMove = setInterval(() => {
             this.walking_sound.pause();
             if (this.isDead()) {
-
-                    clearInterval(intervalMove);
-
+                clearInterval(intervalMove);
             }
 
             this.world.camera_x = -this.x + 100;
@@ -75,14 +75,15 @@ class Character extends MoveableObject {
 
             if (Keyboard.SPACE && !this.isAboveGround()) {
                 this.jump();
+                this.jumping_sound.play();
             }
 
         }, 1000 / 60);
 
-        let intervalAnimation =  setInterval(() => {
+        let intervalAnimation = setInterval(() => {
             if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
-                
+
                 setInterval(() => {
                     clearInterval(intervalAnimation);
                 }, 300);

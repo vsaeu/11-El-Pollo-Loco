@@ -15,4 +15,18 @@ class Level {
         // this.Object ist gleich neues Oblect, Rest sind parameter die reinkommen
     }
 
+    coin_sound = new Audio('audio/glass.mp3');
+    glass_sound = new Audio('audio/glassNew.mp3');
+
+
+
+
+playSoundCoin(){
+    this.coin_sound.play();
+}
+
+playSoundGlass(){
+    this.glass_sound.play();
+}
+
 }

@@ -3,7 +3,10 @@ class Weapon extends MoveableObject {
     height = 70;
     width = 70;
     x = 200;
-
+    accX=0;
+    accY=0;
+    speedX=0;
+    speedY=0;
 
 
     constructor(x) {

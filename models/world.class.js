@@ -9,6 +9,7 @@ class World {
     statusBar = new StatusBar();
     statusBarCoins = new StatusBarCoins();
     statusBarWeapon = new StatusBarWeapon();
+    flyingBottle = [];
 
 
     // coin = new Coin();
@@ -20,37 +21,87 @@ class World {
         this.draw();
         this.setWorld();
         this.checkCollisions();
+        this.checkThrowObjects();
     }
 
     setWorld() {
         this.character.world = this;
     }
 
+    checkThrowObjects() {
+        setInterval(() => {
+            if (Keyboard.D) {
+                let x;
+                let direction;
+                if (this.character.otherDirection) {
+                    x = this.character.x - 30;
+                    direction = 'left';
+                }
+                else {
+                    x = this.character.x + this.character.width - 30;
+                    direction = 'right';
+                }
+                let y = this.character.y + 50;
+                let bottle = new Throwable(x, y, direction);
+
+                if (this.character.collectedBottles > 0) {
+                    this.flyingBottle.push(bottle);
+                    this.character.collectedBottles -= 1;
+                    console.log(this.character.collectedBottles);
+                    this.statusBarWeapon.setPercentage(this.character.collectedBottles);
+                }
+            }
+        }, 200);
+    }
+
     checkCollisions() {
         setInterval(() => {
             // console.log('Collision is checking for:.... ', 'enemies');
 
-            this.level.enemies.forEach(enemy => {
-                if (this.character.isColliding(enemy)) {
-                    // console.log('is Colliding: ', enemy);
-                    this.character.hit();
-                    this.statusBar.setPercentage(this.character.energy);
+            this.level.enemies.forEach((enemy) => {
+                if (this.character.isColliding(enemy) && !this.character.speedY == 0) {
+                    this.character.jumpOnChicken();
+                    enemy.isDead();
                 }
-                else if (!this.character.isColliding(enemy)) {
-                    // console.log('is not Colliding: ', !this.character.isColliding(enemy));
-               }
+                else if (this.character.isColliding(enemy)) {
+                    this.character.hit();
+                    this.statusBar.setPercentage(this.character.energy);                }
             });
 
-            this.level.coins.forEach(coin => {
+            this.level.coins.forEach((coin, index) => {
                 if (this.character.isColliding(coin)) {
-                    this.coin.collect();
+                    this.character.collect('coin');
+                    this.level.playSoundCoin();
+                    this.level.coins.splice(index, 1);
                     this.statusBarCoins.setPercentage(this.character.collectedCoins);
                 }
-                
+            });
+
+            this.level.weapon.forEach((bottle, index) => {
+                if (this.character.isColliding(bottle)) {
+                    this.level.weapon.splice(index, 1);
+                    this.character.collect('bottle');
+                    this.level.playSoundGlass();
+
+                    this.statusBarWeapon.setPercentage(this.character.collectedBottles);
+                }
+            });
+
+            this.level.enemies.forEach(enemy => {
+                this.flyingBottle.forEach(bottle => {
+                    if (bottle.isColliding(enemy)) {
+                     
+                        bottle.collided = true;
+                        setTimeout(() => {
+                            this.flyingBottle.splice(0, 1);
+                        }, 1000);
+                        
+                    }
+                });
             });
 
 
-        }, 200 ); 
+        }, 100);
     }
 
     draw() {
@@ -63,6 +114,8 @@ class World {
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.coins);
+
+        this.addObjectsToMap(this.flyingBottle);
 
         this.addToMap(this.character);
         this.ctx.translate(-this.camera_x, 0); // Kamera wird zurück geschoben

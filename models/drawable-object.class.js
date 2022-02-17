@@ -10,6 +10,7 @@ class DrawableObjects {
     otherDirection = false;
 
     drawMO(ctx) {
+        // console.log(this.img);
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
 
@@ -39,5 +40,9 @@ class DrawableObjects {
             this.imageCache[path] = img;
         });
     }
+
+    hide() {
+        this.level.coins.splice(index, 1);
+     }
 
 }

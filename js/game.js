@@ -6,7 +6,6 @@ function init() {
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
     ctx = canvas.getContext('2d');
-    console.log('My Character is', world.character);
 }
 
 window.addEventListener("keydown", (e) => {
@@ -25,7 +24,11 @@ window.addEventListener("keydown", (e) => {
     if (e.keyCode == 32) {
         Keyboard.SPACE = true;
     }
-    console.log("Keydown Event: ", e);
+    if (e.keyCode == 68) {
+        Keyboard.D = true;
+        console.log('triggered: ', e.keyCode);
+    }
+
 }); 
 
 window.addEventListener("keyup", (e) => {
@@ -43,5 +46,8 @@ window.addEventListener("keyup", (e) => {
     }
     if (e.keyCode == 32) {
         Keyboard.SPACE = false;
+    }
+    if (e.keyCode == 68) {
+        Keyboard.D = false;
     }
 }); 

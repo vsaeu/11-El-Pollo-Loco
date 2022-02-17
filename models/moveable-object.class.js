@@ -6,6 +6,8 @@ class MoveableObject extends DrawableObjects {
     lastHit = 0;
     numberOfColissions = 0;
     collectedCoins = 0;
+    collectedBottles = 0;
+    
 
 
     // character.isColliding (chciken)
@@ -16,30 +18,29 @@ class MoveableObject extends DrawableObjects {
             this.y < mo.y + mo.height
     }
 
-    collected() {
-        return this.collectedCoins;
+    isJumpingOn(mo){
+        return this.y + this.height == mo.y;
     }
 
-    collect(coin) {
-
-        this.collectedCoins += 1;
-        // coin.hide();
-
-        setTimeout(() => {
-            
-        }, 10);
-        console.log('collected Coins', this.collectedCoins);
+    collected(item) {
+        if (item == 'coin') {
+            return this.collectedCoins;
+        }
+        if (item == 'bottle') {
+            return this.collectedBottles;
+        }
     }
 
-    hide() {
-        this.width = 0;
-        this.height = 0;
-        this.x = 10000;
+    collect(item) {
+        if (item == 'coin') {
+            this.collectedCoins += 1;
+        }
+        if (item == 'bottle') {
+            this.collectedBottles += 1;
+        }
     }
-
 
     hit() {
-
         this.energy -= 3;
         this.numberOfColissions += 1;
         if (this.energy < 0) {
@@ -55,8 +56,7 @@ class MoveableObject extends DrawableObjects {
 
     isHurt() {
         let timePassed = new Date().getTime() - this.lastHit; //Differenz in ms
-
-        return timePassed < 500;
+      return timePassed < 500;
     }
 
     moveRight() {
@@ -92,6 +92,10 @@ class MoveableObject extends DrawableObjects {
 
     jump() {
         this.speedY = 30;
+    }
+
+    jumpOnChicken() {
+        this.speedY = 20;
     }
 }
 
