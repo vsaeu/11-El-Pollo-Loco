@@ -1,15 +1,14 @@
 body, html {
     margin: 0;
     height: 100%;
+    font-family: 'Gloria Hallelujah', cursive;
 }
 
-.canvasWrapper {
-    position: absolute;
-    top: calc(50vh - 240px);
-    z-index: 5;
-display: flex;
+.overflowHidden {
+    overflow: hidden !important;
 }
-.paperScrollWrapper{
+
+.paperScrollWrapper {
     position: absolute;
     top: 7rem;
     z-index: 6;
@@ -19,16 +18,16 @@ display: flex;
 
 }
 
-.paperScroll{
+.paperScroll {
     z-index: 10;
     height: 80vh;
 }
 
-.paperScrollLineWrapper{
+.paperScrollLineWrapper {
     display: flex;
     z-index: 11;
     justify-content: center;
-    align-items:flex-start;
+    align-items: flex-start;
     position: absolute;
     /* top:5rem;
     right: 0;
@@ -36,11 +35,12 @@ display: flex;
     flex-direction: column;
     height: calc(100% - 10rem);
     width: 18rem;
-    padding-left: 3rem;;
+    padding-left: 3rem;
+    ;
     /* background-color: #4FD1C5; */
 }
 
-.paperScrollLine{
+.paperScrollLine {
 
     display: flex;
     justify-content: center;
@@ -53,20 +53,89 @@ display: flex;
 
 }
 
-.key{
-padding-right: 2rem;
+.key {
+    padding-right: 2rem;
     height: 3rem;
 }
+
 .wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
+.canvasWrapper {
+    position: absolute;
+    top: calc(50vh - 240px);
+    z-index: 5;
+    /* display: flex; */
+    display: block;
+}
+
+.topZero {
+    top: 0 !important;
+}
+
 .canvas {
     outline: rgba(125, 47, 20, 1) 3px solid;
     border-radius: 1rem;
+    display: block;
 }
+
+
+
+
+@media only screen and (max-width: 720px) {
+    .canvas, .bg {
+        width: 100%;
+        position: absolute;
+        /* top: 0; */
+        left: 0;
+        /* bottom: 0; */
+        right: 0;
+    }
+    .icons{
+        display: none;
+    }
+
+    .canvasWrapper{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+    }
+}
+
+@media only screen and (max-height: 480px) {
+    .canvas, .bg {
+        height: 100%;
+        /* position: absolute; */
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+    }
+    .canvasWrapper{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        /* left: 0; */
+        bottom: 0;
+        /* right: 0; */
+    }
+    .icons{
+        display: none;
+    }
+}
+
 
 .startScreen {
     position: absolute;
@@ -74,7 +143,6 @@ padding-right: 2rem;
     right: 0;
     top: 0;
     bottom: 0;
-
     justify-content: center;
     align-items: cover;
     background-color: rgba(219, 206, 206, 0.452);
@@ -83,28 +151,39 @@ padding-right: 2rem;
 
 
 .bg {
-    /* The image used */
     background-image: url('img/9.Intro _ Outro Image/Start Screen/Opción 1.png');
-
-    /* Full height */
-    height: 100%;
-
-    /* Center and scale the image nicely */
+    height: 100vh;
+    width: auto;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    /* opacity: 0.5 !important; */
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-
     z-index: 0;
 }
 
-.bgGameMode{
-    background-image: url('img/5.Fondo/Completo.png') !important; 
+@media (max-width: 1050px) {
+    .bg {
+        background-size: contain;
+    }
+}
 
+.bgGameMode {
+    background-image: url('img/5.Fondo/Completo.png') !important;
+}
+
+.responsiveBG {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('img/5.Fondo/Completo.png') !important;
+    background-size: cover;
+    opacity: .3;
+    z-index: -2;
 }
 
 .opacity {
@@ -115,18 +194,49 @@ padding-right: 2rem;
     display: none;
 }
 
-.infoIcon {
-    z-index: 2;
+.icons{
     position: absolute;
     top: 2rem;
     right: 3rem;
-    width: 3rem;
-    height: 3rem;
-    border: #9a3a17 solid 4px;
+}
+
+@media (max-width: 900px) {
+    .icons {
+        top: unset;
+        bottom: 2rem;
+    }
+
+    .icons img{
+        border: #9a3a17 solid 2px;
+        background-color: #ffffff;
+        padding: .1rem;
+    }
+
+
+}
+
+.infoIcon {
+    z-index: 2;
+    width: 2.5rem;
+    height: 2.5rem;
+    border: #9a3a17 solid 2px;
     border-radius: 100%;
+    margin: 0 3rem;
+
 }
 
 .infoIcon:hover {
+    cursor: pointer;
+}
+
+.fullscreen {
+    z-index: 2;
+    width: 2.5rem;
+    height: 2.5rem;
+
+}
+
+.fullscreen:hover {
     cursor: pointer;
 }
 
@@ -139,12 +249,17 @@ padding-right: 2rem;
     left: calc(50vw-2.5rem);
     min-width: 300px;
     min-height: 50px;
-    font-family: 'Nunito', sans-serif;
     font-size: 22px;
     text-transform: uppercase;
+    text-justify: center;
     letter-spacing: 1.3px;
     font-weight: 700;
     color: #313133;
+    font-family: 'Gloria Hallelujah', cursive;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: #4FD1C5;
     background: linear-gradient(90deg, rgba(255, 163, 0, 1) 0%, rgba(125, 47, 20, 1) 100%);
     border: none;

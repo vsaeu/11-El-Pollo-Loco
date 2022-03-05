@@ -2,6 +2,10 @@
 <html lang="en">
 
 <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&family=Gloria+Hallelujah&display=swap"
+        rel="stylesheet">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -69,16 +73,21 @@
         </div>
 
         <button onclick="init()" class="button" id="button">Start Game</button>
-        <img id="infoIcon" onclick="showInstructions()" src="img/infoIcon.png" class="infoIcon">
-        <button onclick="mutePage()">Mute</button>
+
+        <div class="icons">
+            <img id="infoIcon" onclick="showInstructions()" src="img/infoIcon.png" class="infoIcon">
+            <img src="img/fullscreen.png" onclick="fullscreen()" class="fullscreen">
+        </div>
+
+        <!-- <button onclick="fullscreen()">Fullscreen</button> -->
         <div id="canvasWrapper" class="canvasWrapper dNone">
             <canvas class="canvas" id="canvas" width="720" height="480">
             </canvas>
         </div>
     </div>
 
-    <h1 class="dNone header">El Pollo Loco</h1>
-
+    <!-- <h1 class="dNone header">El Pollo Loco</h1> -->
+    <div class="responsiveBG"></div>
 
 </body>
 

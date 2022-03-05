@@ -6,7 +6,7 @@ class Endboss extends MoveableObject {
     x = 3300;
     endbossHit_Sound = new Audio('audio/endbossHitSound.mp3');
     world;
-    speed = 1.5;
+    speed = 4;
 
     IMAGES_STANDING = [
         'img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/2.Ateción-ataque/1.Alerta/G5.png',
@@ -67,6 +67,7 @@ class Endboss extends MoveableObject {
     intervalStanding = true;
     endbossIsDead = false;
     endbossJustHurted = false;
+    isDeadStatus = false; // only for collision
 
     // 0=Normal, 1=Hit, 2= Dead, 3=Attack
     EndbossStatus = 'normal';
@@ -87,7 +88,7 @@ class Endboss extends MoveableObject {
     animate(){
         setInterval(() => {
             if(this.EndbossStatus == 'normal'){
-                this.playAnimation(this.IMAGES_STANDING);
+                this.playAnimation(this.IMAGES_WALKING);
                 this.moveLeft();
                 this.otherDirection = false;
                 this.x -= this.speed;
@@ -95,11 +96,17 @@ class Endboss extends MoveableObject {
             if(this.EndbossStatus == 'hit'){
                 this.playAnimation(this.IMAGES_HIT);
             }
+            if(this.EndbossStatus == 'attack'){
+                this.playAnimation(this.IMAGES_ATTACKING);
+                this.moveLeft();
+                this.otherDirection = false;
+                this.x -= this.speed;
+            }
             if(this.EndbossStatus == 'dead'){
                 this.playAnimation(this.IMAGES_DEAD);
             }
 
-        }, 300);
+        }, 400);
     }
 
 

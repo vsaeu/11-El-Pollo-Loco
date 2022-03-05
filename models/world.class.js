@@ -71,16 +71,19 @@ class World {
 
     checkCollisionCharacterWithEnemy() {
         this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy) && this.character.isAboveGround() && !this.character.speedY == 0 && !enemy.isDeadStatus) {
+            if (this.character.isColliding(enemy) && this.character.isAboveGround() && !this.character.speedY == 0 && !enemy.isDeadStatus && enemy instanceof Chicken) {
                 enemy.isDeadChicken();
                 this.character.jumpOnChicken();
             }
+            
             else if (this.character.isColliding(enemy) && !enemy.isDeadStatus) {
-                this.character.hit();
+                this.character.pepeGotHit();
                 this.statusBar.setPercentage(this.character.energy);
             }
+
+
         });
-        console.log('character X: ', this.character.x);
+        // console.log('character X: ', this.character.x);
     }
 
     checkCollisionWithCoin() {
@@ -100,7 +103,7 @@ class World {
                 this.level.weapon.splice(index, 1);
                 this.character.collect('bottle');
                 this.level.playSoundGlass();
-                // this.statusBarWeapon.setPercentage(this.character.collectedBottles);
+                this.statusBarWeapon.setPercentage(this.character.collectedBottles);
             }
         });
     }

@@ -6,7 +6,7 @@ class MoveableObject extends DrawableObjects {
     lastHit = 0;
     collisionJustHappend = false;
     collectedCoins = 0;
-    collectedBottles = 4;
+    collectedBottles = 0;
 
 
 
@@ -59,8 +59,6 @@ class MoveableObject extends DrawableObjects {
             this.energy -= 40;
             // console.log('Energie: ', this.energy);
 
-
-
         }
         if (this.energy < 0 && enemy instanceof Endboss) {
             // console.log('unerwünschter trigger');
@@ -68,11 +66,24 @@ class MoveableObject extends DrawableObjects {
         }
         else if (this.energy > 0 && enemy instanceof Endboss && this.isHurt()) {
             enemy.EndbossStatus = 'hit';
+
             setTimeout(() => {
-                enemy.EndbossStatus = 'normal';
+                enemy.EndbossStatus = 'attack';
 
             }, 1000);
+
+            setTimeout(() => {
+                enemy.speed = 70;
+
+            }, 1800);
+
+            setTimeout(() => {
+                enemy.EndbossStatus = 'normal';
+                enemy.speed = 4;
+            }, 2500);
         }
+
+
 
 
         // this.collisionJustHappend = true;
@@ -85,6 +96,12 @@ class MoveableObject extends DrawableObjects {
         //     this.collisionJustHappend = false;
         // }, 100);
 
+    }
+
+    pepeGotHit() {
+
+        this.energy -= 2 ; 
+        this.lastHit = new Date().getTime(); 
     }
 
     isDead() {
@@ -138,19 +155,14 @@ class MoveableObject extends DrawableObjects {
     deadAnimationCounter = 0;
 
     playDeadAnimation(images) {
-        if (this.deadAnimationCounter < images.length){
+        if (this.deadAnimationCounter < images.length) {
             let i = this.deadAnimationCounter;
-            console.log('Nummer des Dead Bildes: ', i)
+            // console.log('Nummer des Dead Bildes: ', i)
             let path = images[i];
             this.img = this.imageCache[path];
             this.currentImage++;
             this.deadAnimationCounter++;
         }
-        // if (deadAnimationCounter ==  images.length)
-        // {
-
-        // }
-
     }
 
     applyGravaty() {

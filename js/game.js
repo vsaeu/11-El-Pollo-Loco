@@ -17,8 +17,15 @@ function init() {
     else {
         location.reload();
     }
-    // document.getElementById('canvas').classList.remove('dNone');
-    // switchToGameMode();
+}
+
+
+function fullscreen(){
+    document.getElementById('canvas').requestFullscreen();
+    if (!initialStarted){
+    init();
+}
+
 }
 
 function muteMe(elem) {elem.muted = false;elem.pause();}// Try to mute all video and audio elements on the page

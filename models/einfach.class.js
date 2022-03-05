@@ -1,7 +1,7 @@
 class Einfach {
 
-addSpeedE = 10;
+addSpeedE = 3;
 addSpeed(){
-    return 10;
+    return 3;
 }
 }

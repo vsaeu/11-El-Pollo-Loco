@@ -3,9 +3,8 @@ class Character extends MoveableObject {
     y = 185;
     height = 250;
     width = 150;
-    initspeed = 10 ;
-    // newSpeed = new Einfach();
-     addSpeed = einfach.addSpeedE;
+    initspeed = 10;
+    addSpeed = einfach.addSpeedE;
     speed = this.initspeed + this.addSpeed;
     movingStatus = false;
 
@@ -96,6 +95,9 @@ class Character extends MoveableObject {
             this.jump();
             this.jumping_sound.play();
         }
+        else if (!this.isAboveGround()) {
+            this.y = 185;
+        }
         if (Keyboard.RIGHT && this.x < this.world.level.level_end_x) {
             this.movingStatus = true;
             this.moveRight();
@@ -106,36 +108,50 @@ class Character extends MoveableObject {
             this.walking_sound.play();
         }
         else {
-    this.movingStatus = false;
-}
+            this.movingStatus = false;
+        }
     }
 
-animateImages() {
-    let intervalAnimation = setInterval(() => {
-        if (this.isHurt()) {
-            this.playAnimation(this.IMAGES_HURT);
-            setTimeout(() => {
-                this.ouch_sound.play();
-            }, 200);
-        }
+    timeTriggerOld = 0;
 
-        else if (this.isAboveGround()) {
-            this.playAnimation(this.IMAGES_JUMPING);
-        } else {
-            if (Keyboard.RIGHT || Keyboard.LEFT) {
-                this.playAnimation(this.IMAGES_WALKING);
-            } else {
-                this.playAnimation(this.IMAGES_IDLE);
+    timeBreak() {
+        let timeTriggerNew = new Date().getTime();
+        let timeDiff = timeTriggerNew - this.timeTriggerOld // immer positiv--> Sobald größer als X, dann true
+        return timeDiff > 1000;
+
+    }
+
+    animateImages() {
+        let intervalAnimation = setInterval(() => {
+            if (this.isHurt()) {
+
+                this.playAnimation(this.IMAGES_HURT);
+                console.log('Pepe hurt by Chicken')
+
+                if (this.timeBreak()) {
+
+                    this.ouch_sound.play();
+                    this.timeTriggerOld = new Date().getTime();
+                }
             }
-        }
-    }, 100);
-}
 
-animate() {
-    let intervalMove = setInterval(() => {
-        this.animateBasics(intervalMove);
-    }, 1000 / 60);
+            else if (this.isAboveGround()) {
+                this.playAnimation(this.IMAGES_JUMPING);
+            } else {
+                if (Keyboard.RIGHT || Keyboard.LEFT) {
+                    this.playAnimation(this.IMAGES_WALKING);
+                } else {
+                    this.playAnimation(this.IMAGES_IDLE);
+                }
+            }
+        }, 100);
+    }
 
-    this.animateImages();
-}
+    animate() {
+        let intervalMove = setInterval(() => {
+            this.animateBasics(intervalMove);
+        }, 1000 / 60);
+
+        this.animateImages();
+    }
 }
