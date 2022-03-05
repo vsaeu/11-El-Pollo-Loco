@@ -12,6 +12,8 @@ class Chicken extends MoveableObject {
     ];
 
     IMAGE_DEAD = 'img/3.Secuencias_Enemy_básico/Versión_Gallinita (estas salen por orden de la gallina gigantona)/4.G_muerte.png';
+    chickenDie_sound = new Audio('audio/chicken.mp3');
+
 
 
     constructor(x) {
@@ -23,23 +25,31 @@ class Chicken extends MoveableObject {
 
     }
 
-    isDead(){
-        // this.loadImage(this.IMAGE_DEAD);
-        this.img.src = this.IMAGE_DEAD;
-       this.isDeadStatus = true;
+    isDeadChicken() {
+        if (this instanceof Chicken) {
+            this.img.src = this.IMAGE_DEAD;
+            this.isDeadStatus = true;
+            this.animate();
+            this.playSound();
+        }
     }
 
+    playSound() {
+        this.chickenDie_sound.volume = 0.3;
+        this.chickenDie_sound.play();
+    }
 
     animate() {
         let intervalAnimation = setInterval(() => {
-                        if(this.isDeadStatus){
+            if (this.isDeadStatus) {
                 clearInterval(intervalAnimation);
             }
-            this.moveLeft();
-            this.otherDirection = false;
-            this.x -= this.speed;
-            this.playAnimation(this.IMAGES_WALKING);
-
+            else {
+                this.moveLeft();
+                this.otherDirection = false;
+                this.x -= this.speed;
+                this.playAnimation(this.IMAGES_WALKING);
+            }
 
 
         }, 10000 / 60);
@@ -47,3 +57,4 @@ class Chicken extends MoveableObject {
     }
 
 }
+

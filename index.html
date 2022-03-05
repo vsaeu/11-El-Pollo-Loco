@@ -5,13 +5,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>EL POLLO LOCO</title>
+    <link rel="icon" href="img/Sombrero.png">
     <link rel="stylesheet" href="style.css">
-
+    <script src="models/audios.class.js"></script>
+    <script src="models/einfach.class.js"></script>
     <script src="models/drawable-object.class.js"></script>
     <script src="models/moveable-object.class.js"></script>
     <script src="models/character.class.js"></script>
-    <!-- <script src="models/exCoin.class.js"></script> -->
     <script src="models/chicken.class.js"></script>
     <script src="models/cloud.class.js"></script>
     <script src="models/coins.class.js"></script>
@@ -20,15 +21,11 @@
     <script src="models/status-bar.class.js"></script>
     <script src="models/status-barCoins.class.js"></script>
     <script src="models/status-barWeapon.class.js"></script>
-
     <script src="models/world.class.js"></script>
-
-
     <script src="models/background-object.class.js"></script>
-
+    <script src="models/endscreen.class.js"></script>
     <script src="models/keyboard.class.js"></script>
     <script src="models/level.class.js"></script>
-
 
     <script src="models/endboss.class.js"></script>
 
@@ -37,13 +34,51 @@
     <script src="js/game.js"></script>
 </head>
 
-<body onload="init()">
+<body>
 
-    <h1>El Pollo Loco</h1>
+    <div id="bg" class="bg"></div>
 
-    <canvas id="canvas" width="720" height="480">
+    <div id="wrapper" class="wrapper ">
 
-    </canvas>
+        <div class="paperScrollWrapper dNone" id="paperScrollWrapper">
+            <img class="paperScroll" src="img/paperscroll.png" alt="" srcset="">
+
+            <div class="paperScrollLineWrapper">
+
+                <div class="paperScrollLine">
+                    <img class="key" src="img/keyRightArrow.svg" alt="" srcset="">
+                    <span>Move right</span>
+                </div>
+
+                <div class="paperScrollLine">
+                    <img class="key" src="img/keyLeftArrow.svg" alt="" srcset="">
+                    <span>Move left</span>
+                </div>
+
+                <div class="paperScrollLine">
+                    <img class="key" src="img/keyD.svg" alt="" srcset="">
+                    <span>Throw bottle</span>
+                </div>
+
+                <div class="paperScrollLine">
+                    <img class="key" src="img/keySpace.svg" alt="" srcset="">
+                    <span>Jump</span>
+                </div>
+            </div>
+
+        </div>
+
+        <button onclick="init()" class="button" id="button">Start Game</button>
+        <img id="infoIcon" onclick="showInstructions()" src="img/infoIcon.png" class="infoIcon">
+        <button onclick="mutePage()">Mute</button>
+        <div id="canvasWrapper" class="canvasWrapper dNone">
+            <canvas class="canvas" id="canvas" width="720" height="480">
+            </canvas>
+        </div>
+    </div>
+
+    <h1 class="dNone header">El Pollo Loco</h1>
+
 
 </body>
 

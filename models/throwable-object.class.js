@@ -8,6 +8,7 @@ class Throwable extends MoveableObject {
     throwing_sound = new Audio('audio/throwing.mp3');
     splash_sound = new Audio('audio/splash.mp3');
     collided = false;
+    initialSpeedX = 0;
 
 
 
@@ -24,22 +25,21 @@ class Throwable extends MoveableObject {
         'img/6.botella/Rotación/Splash de salsa/Mesa de trabajo 1 copia 9.png',
         'img/6.botella/Rotación/Splash de salsa/Mesa de trabajo 1 copia 10.png',
         'img/6.botella/Rotación/Splash de salsa/Mesa de trabajo 1 copia 11.png',
-
+        'img/6.botella/Rotación/Splash de salsa/Mesa de trabajo 1 copia 12.png',
     ];
 
 
-    constructor(x, y, direction) {
+    constructor(x, y, direction, initialSpeedX) {
         super().loadImage(this.IMAGES_FLY[1]);
         this.loadImages(this.IMAGES_FLY);
         this.loadImages(this.IMAGES_SPLASH);
-
         this.x = x;
         this.y = y;
         this.direction = direction;
+        this.initialSpeedX = initialSpeedX;
         this.flyingBottle();
         this.animate();
-        // this.throwing_sound.play();
-
+        this.throwing_sound.play();
     }
 
 
@@ -49,7 +49,7 @@ class Throwable extends MoveableObject {
                 this.stopBottleAndCrack();
                 setTimeout(() => {
                     clearInterval(intervalFlyingBottle);
-                }, 300);
+                }, 500);
             }
 
             else {
@@ -76,12 +76,12 @@ class Throwable extends MoveableObject {
     removeSplash() {
         setTimeout(() => {
             this.splice(0, 1);
-        }, 500);
+        }, 800);
     }
 
     flyingBottle() {
         if (this.direction == 'right') {
-            this.speedX = 17;
+            this.speedX = 17 + this.initialSpeedX;
             this.speedY = -12;
 
             setInterval(() => {

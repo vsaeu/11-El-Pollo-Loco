@@ -10,7 +10,6 @@ class DrawableObjects {
     otherDirection = false;
 
     drawMO(ctx) {
-        // console.log(this.img);
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
 
@@ -20,15 +19,15 @@ class DrawableObjects {
         this.img.src = path;
     }
 
-    drawFrame(ctx) {
-        if (this instanceof Character || this instanceof Chicken) {
-            ctx.beginPath();
-            ctx.lineWidth = "2";
-            ctx.strokeStyle = "green";
-            ctx.rect(this.x, this.y, this.width, this.height);
-            ctx.stroke();
-        }
-    }
+    // drawFrame(ctx) {
+    //     if (this instanceof Character || this instanceof Chicken) {
+    //         ctx.beginPath();
+    //         ctx.lineWidth = "2";
+    //         ctx.strokeStyle = "green";
+    //         ctx.rect(this.x, this.y, this.width, this.height);
+    //         ctx.stroke();
+    //     }
+    // }
     /**
      * 
      * @param {Array} arr - ['img/image1.png', 'img/image2.png', ....] 

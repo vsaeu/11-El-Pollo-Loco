@@ -5,6 +5,8 @@ class Level {
     coins;
     weapon;
     level_end_x = 4000;
+    
+
 
     constructor(enemies, clouds, backgroundObjects, coins, weapon) {
         this.enemies = enemies;
@@ -18,15 +20,12 @@ class Level {
     coin_sound = new Audio('audio/glass.mp3');
     glass_sound = new Audio('audio/glassNew.mp3');
 
+    playSoundCoin() {
+        this.coin_sound.play();
+    }
 
-
-
-playSoundCoin(){
-    this.coin_sound.play();
-}
-
-playSoundGlass(){
-    this.glass_sound.play();
-}
+    playSoundGlass() {
+        this.glass_sound.play();
+    }
 
 }
