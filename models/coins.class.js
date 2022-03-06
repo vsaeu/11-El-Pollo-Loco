@@ -6,8 +6,6 @@ class Coins extends MoveableObject {
     x = 200;
     directionDown = true;
 
-
-
     constructor(x) {
         super().loadImage('img/8.Coin/Moneda1.png');
         this.x = x + Math.random() * 200; // Zahl zwischen 200-700
@@ -15,13 +13,6 @@ class Coins extends MoveableObject {
     }
 
     animate() {
-
-        // setInterval(() => {
-
-        //     this.moveLeft();
-        //     this.otherDirection = false;
-        // }, 10000 / 60);
-
         setInterval(() => {
             if (this.directionDown) {
                 this.y += this.speed;
@@ -35,9 +26,6 @@ class Coins extends MoveableObject {
                     this.directionDown = true;
                 }
             }
-
-
         }, 1000 / 60);
     }
-
 }

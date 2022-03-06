@@ -8,8 +8,7 @@ class Weapon extends MoveableObject {
     speedX=0;
     speedY=0;
 
-
-    constructor(x) {
+  constructor(x) {
         super().loadImage('img/6.botella/2.Botella_enterrada2.png');
         this.x = x + Math.random() * 400; // Zahl zwischen 200-700
     }

@@ -10,8 +10,6 @@ class Throwable extends MoveableObject {
     collided = false;
     initialSpeedX = 0;
 
-
-
     IMAGES_FLY = [
         'img/6.botella/Rotación/Mesa de trabajo 1 copia 3.png',
         'img/6.botella/Rotación/Mesa de trabajo 1 copia 4.png',
@@ -51,13 +49,12 @@ class Throwable extends MoveableObject {
                     clearInterval(intervalFlyingBottle);
                 }, 500);
             }
-
             else {
                 this.playAnimation(this.IMAGES_FLY);
+                console.log('play animation fly');
             }
             this.collided = false
         }, 100);
-
     };
 
     isBottleAboveGround() {
@@ -83,27 +80,23 @@ class Throwable extends MoveableObject {
         if (this.direction == 'right') {
             this.speedX = 17 + this.initialSpeedX;
             this.speedY = -12;
-
-            setInterval(() => {
-                this.x += this.speedX;
-                this.speedX -= this.accX;
-                this.y += this.speedY;
-                this.speedY += this.accY;
-            }, 1000 / 25);
+            this.bottleFlight();
         }
         else {
             this.speedX = -17;
             this.speedY = -12;
-
-            setInterval(() => {
-                this.x += this.speedX;
-                this.speedX -= this.accX;
-                this.y += this.speedY;
-                this.speedY += this.accY;
-            }, 1000 / 25);
+            this.bottleFlight();
         }
     }
 
+    bottleFlight(){
+        setInterval(() => {
+            this.x += this.speedX;
+            this.speedX -= this.accX;
+            this.y += this.speedY;
+            this.speedY += this.accY;
+        }, 1000 / 25);
+    }
 
 }
 

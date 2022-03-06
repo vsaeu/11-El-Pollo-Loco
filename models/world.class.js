@@ -15,9 +15,8 @@ class World {
     endboss = this.level.enemies[0];
     endscreen = new Endscreen(canvas);
     gameGoing = true;
-
-
-    // coin = new Coin();
+    direction = 'right';
+    xBottleStart;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -44,29 +43,48 @@ class World {
     checkThrowObjects() {
         setInterval(() => {
             if (Keyboard.D) {
-                let x;
-                let direction;
-                if (this.character.otherDirection) {
-                    x = this.character.x - 30;
-                    direction = 'left';
-                }
-                else {
-                    x = this.character.x + this.character.width - 30;
-                    direction = 'right';
-                }
+                this.direction = this.checkCharacterDirection();
                 let y = this.character.y + 50;
                 let initialSpeedX = 0;
+
                 if (this.character.movingStatus) {
                     initialSpeedX = this.character.speed;
                 }
-                if (this.character.collectedBottles > 0) {
-                    let bottle = new Throwable(x, y, direction, initialSpeedX);
-                    this.flyingBottle.push(bottle);
-                    this.character.collectedBottles -= 1;
-                    this.statusBarWeapon.setPercentage(this.character.collectedBottles);
-                }
+                this.throwBottle(y, initialSpeedX);
             }
         }, 130);
+    }
+
+    throwBottle(y, initialSpeedX) {
+        if (this.character.collectedBottles > 0) {
+            let bottle = new Throwable(this.xBottleStart, y, this.direction, initialSpeedX);
+            this.flyingBottle.push(bottle);
+            this.character.collectedBottles -= 1;
+            this.statusBarWeapon.setPercentage(this.character.collectedBottles);
+        }
+    }
+
+    checkCharacterDirection(x) {
+        let direction;
+        if (this.character.otherDirection) {
+            this.xBottleStart = this.character.x - 30;
+            direction = 'left';
+        }
+        else {
+            this.xBottleStart = this.character.x + this.character.width - 30;
+            direction = 'right';
+        }
+        return direction;
+    }
+
+
+    checkCollisions() {
+        setInterval(() => {
+            this.checkCollisionCharacterWithEnemy();
+            this.checkCollisionWithCoin();
+            this.checkCollisionWithBottle();
+            this.checkCollisionBottleWithEnemy();
+        }, 70);
     }
 
     checkCollisionCharacterWithEnemy() {
@@ -75,15 +93,11 @@ class World {
                 enemy.isDeadChicken();
                 this.character.jumpOnChicken();
             }
-            
             else if (this.character.isColliding(enemy) && !enemy.isDeadStatus) {
                 this.character.pepeGotHit();
                 this.statusBar.setPercentage(this.character.energy);
             }
-
-
         });
-        // console.log('character X: ', this.character.x);
     }
 
     checkCollisionWithCoin() {
@@ -124,13 +138,8 @@ class World {
     }
 
     checkCollisionBottleWithEndboss(enemy) {
-        // if (!enemy.isHurt()) {
-        //     enemy.hit(enemy); // Abzug Energy
-        // }
-        // else if (enemy.endbossIsHurt()) {
         enemy.hit(enemy);
         this.removeSplashedBottle();
-        // }
     }
 
     removeSplashedBottle() {
@@ -139,15 +148,6 @@ class World {
         }, 500);
     }
 
-    checkCollisions() {
-        setInterval(() => {
-            this.checkCollisionCharacterWithEnemy();
-            this.checkCollisionWithCoin();
-            this.checkCollisionWithBottle();
-            this.checkCollisionBottleWithEnemy();
-        }, 70);
-    }
-    // }
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(this.camera_x, 0); // Kamera wird verschoben
@@ -170,35 +170,37 @@ class World {
 
     nextDraw() {
         if (this.endboss.EndbossStatus == 'dead' && this.customTimeoutFinished) {
-
-            this.endscreen.gameOver();
-            this.endGame();
-
-
+            this.drawGameOver();
         }
         else if (this.character.energy == 0) {
-            this.endscreen.lost();
-            this.endGame();
+            this.drawLost();
         }
         else {
             let self = this;
             requestAnimationFrame(function () {
                 self.draw();
-            }
-            );
+            });
             this.customTimeout();
         }
-       
+    }
+
+    drawGameOver() {
+        this.endscreen.gameOver();
+        this.endGame();
+    }
+
+    drawLost() {
+        this.endscreen.lost();
+        this.endGame();
     }
 
     customTimeout() {
         if (this.endboss.EndbossStatus == 'dead') {
             setTimeout(() => {
-                this.customTimeoutFinished=true;
+                this.customTimeoutFinished = true;
             }, 1500);
-                    }
+        }
     }
-
 
     endGame() {
         this.gameGoing = false;
@@ -216,14 +218,10 @@ class World {
     }
 
     addToMap(mo) {
-
         if (mo.otherDirection) {
             this.flipImage(mo);
-
         };
         mo.drawMO(this.ctx);
-        // mo.drawFrame(this.ctx);
-
         if (mo.otherDirection) {
             this.flipImageBack(mo);
         };

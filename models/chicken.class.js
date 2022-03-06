@@ -5,6 +5,8 @@ class Chicken extends MoveableObject {
     speed = 1.15 + Math.random() * 5;
     x = 200;
     isDeadStatus = false;
+    chickenDie_sound = new Audio('audio/chicken.mp3');
+
     IMAGES_WALKING = [
         'img/3.Secuencias_Enemy_básico/Versión_Gallinita (estas salen por orden de la gallina gigantona)/1.Ga_paso_derecho.png',
         'img/3.Secuencias_Enemy_básico/Versión_Gallinita (estas salen por orden de la gallina gigantona)/2-Ga_centro.png',
@@ -12,9 +14,6 @@ class Chicken extends MoveableObject {
     ];
 
     IMAGE_DEAD = 'img/3.Secuencias_Enemy_básico/Versión_Gallinita (estas salen por orden de la gallina gigantona)/4.G_muerte.png';
-    chickenDie_sound = new Audio('audio/chicken.mp3');
-
-
 
     constructor(x) {
         //super() wenn methode aus Übergeornetem Objekt genomen werden soll
@@ -50,11 +49,7 @@ class Chicken extends MoveableObject {
                 this.x -= this.speed;
                 this.playAnimation(this.IMAGES_WALKING);
             }
-
-
         }, 10000 / 60);
-
     }
-
 }
 

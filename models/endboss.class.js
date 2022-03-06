@@ -7,6 +7,10 @@ class Endboss extends MoveableObject {
     endbossHit_Sound = new Audio('audio/endbossHitSound.mp3');
     world;
     speed = 4;
+    intervalStanding = true;
+    endbossIsDead = false;
+    endbossJustHurted = false;
+    isDeadStatus = false; // only for collision
 
     IMAGES_STANDING = [
         'img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/2.Ateción-ataque/1.Alerta/G5.png',
@@ -20,14 +24,14 @@ class Endboss extends MoveableObject {
     ];
 
     IMAGES_ATTACKING = [
-'img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/2.Ateción-ataque/2.Ataque/G13.png',
-'img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/2.Ateción-ataque/2.Ataque/G14.png',
-'img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/2.Ateción-ataque/2.Ataque/G15.png',
-'img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/2.Ateción-ataque/2.Ataque/G16.png',
-'img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/2.Ateción-ataque/2.Ataque/G17.png',
-'img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/2.Ateción-ataque/2.Ataque/G18.png',
-'img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/2.Ateción-ataque/2.Ataque/G19.png',
-'img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/2.Ateción-ataque/2.Ataque/G20.png',
+        'img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/2.Ateción-ataque/2.Ataque/G13.png',
+        'img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/2.Ateción-ataque/2.Ataque/G14.png',
+        'img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/2.Ateción-ataque/2.Ataque/G15.png',
+        'img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/2.Ateción-ataque/2.Ataque/G16.png',
+        'img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/2.Ateción-ataque/2.Ataque/G17.png',
+        'img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/2.Ateción-ataque/2.Ataque/G18.png',
+        'img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/2.Ateción-ataque/2.Ataque/G19.png',
+        'img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/2.Ateción-ataque/2.Ataque/G20.png',
 
     ];
 
@@ -39,13 +43,11 @@ class Endboss extends MoveableObject {
         'img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/1.Caminata/G4.png',
     ];
 
-
-
     IMAGES_HIT = [
         'img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/3.Herida/G21.png',
         'img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/3.Herida/G22.png',
         'img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/3.Herida/G23.png',
-      ];
+    ];
 
     IMAGES_DEAD = [
         'img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/4.Muerte/G24.png',
@@ -64,86 +66,36 @@ class Endboss extends MoveableObject {
         this.animate();
     }
 
-    intervalStanding = true;
-    endbossIsDead = false;
-    endbossJustHurted = false;
-    isDeadStatus = false; // only for collision
-
-    // 0=Normal, 1=Hit, 2= Dead, 3=Attack
     EndbossStatus = 'normal';
 
-
-
-    // animate() {
-    //     if (!this.endbossIsDead && !this.endbossJustHurted) {
-    //         setInterval(() => {
-    //             if (this.intervalStanding) {
-    //                 console.log('EB IMAGES_STANDING');
-    //                 this.playAnimation(this.IMAGES_STANDING);
-    //             }
-    //         }, 10000 / 30);
-    //     }
-    // }
-
-    animate(){
+    animate() {
         setInterval(() => {
-            if(this.EndbossStatus == 'normal'){
-                this.playAnimation(this.IMAGES_WALKING);
-                this.moveLeft();
-                this.otherDirection = false;
-                this.x -= this.speed;
+            if (this.EndbossStatus == 'normal') {
+                this.animateWalking();
             }
-            if(this.EndbossStatus == 'hit'){
+            if (this.EndbossStatus == 'hit') {
                 this.playAnimation(this.IMAGES_HIT);
             }
-            if(this.EndbossStatus == 'attack'){
-                this.playAnimation(this.IMAGES_ATTACKING);
-                this.moveLeft();
-                this.otherDirection = false;
-                this.x -= this.speed;
+            if (this.EndbossStatus == 'attack') {
+                this.animateAttacking();
             }
-            if(this.EndbossStatus == 'dead'){
+            if (this.EndbossStatus == 'dead') {
                 this.playAnimation(this.IMAGES_DEAD);
             }
-
         }, 400);
     }
 
+    animateWalking() {
+        this.playAnimation(this.IMAGES_WALKING);
+        this.moveLeft();
+        this.otherDirection = false;
+        this.x -= this.speed;
+    }
 
- 
-
-    // endbossHit() {
-    //     console.log('EB Animation endbossHit() wird getriggert');
-
-    //     this.endbossHit_Sound.play();
-
-    //     let interval = setInterval(() => {
-    //         if (this.isDead() && this.counterDeadLoopPlay > 0) {
-    //             this.intervalStanding = false;
-    //             this.playAnimation(this.IMAGES_DEAD);
-    //             this.endbossJustHurted = true;
-    //             counterDeadLoopPlay--;
-    //             console.log('EB this.playAnimation(this.IMAGES_DEAD);');
-    //         }
-    //         else if (this.counterHitLoopPlay> 0) {
-    //             this.counterHitLoopPlay--;
-    //             this.endbossJustHurted = true;
-
-    //         }  else if (this.counterHitLoopPlay == 0){
-    //             this.animate();
-    //             clearInterval(interval);
-    //         }
-    
-
-    //     }, 200);
-
-
-    //     setTimeout(() => {
-    //         this.endbossJustHurted = false;
-    //         this.counterHitLoopPlay = 6;
-    //     }, 1000);
-
-    // }
-
-
+    animateAttacking() {
+        this.playAnimation(this.IMAGES_ATTACKING);
+        this.moveLeft();
+        this.otherDirection = false;
+        this.x -= this.speed;
+    }
 }

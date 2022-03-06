@@ -13,7 +13,6 @@ class DrawableObjects {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
 
-    // loadImage('img/test.png);
     loadImage(path) {
         this.img = new Image(); //this.img = document.getElmenetById('ImgId') <img id="ImgId">
         this.img.src = path;

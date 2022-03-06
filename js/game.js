@@ -2,7 +2,6 @@ let canvas;
 let world;
 let keyboard;
 let initialStarted = false;
-let einfach = new Einfach();
 
 function init() {
     if (!initialStarted) {
